@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Character/Character.png" type="Texture" id=1]
 [ext_resource path="res://Character/Character.gd" type="Script" id=2]
 [ext_resource path="res://Gun/Gun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Shared/HurtBox.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle_left"
@@ -140,7 +141,11 @@ start_node = "Idle"
 [sub_resource type="CircleShape2D" id=19]
 radius = 2.67656
 
+[sub_resource type="CircleShape2D" id=20]
+radius = 3.28368
+
 [node name="Character" type="KinematicBody2D"]
+collision_mask = 4
 script = ExtResource( 2 )
 speed = 15
 
@@ -148,7 +153,7 @@ speed = 15
 z_index = 1
 texture = ExtResource( 1 )
 hframes = 16
-frame = 8
+frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle_left = SubResource( 1 )
@@ -170,3 +175,9 @@ parameters/Walking/blend_position = Vector2( 0.0528076, 0.0592465 )
 position = Vector2( -0.0772781, 0.347759 )
 z_index = 2
 shape = SubResource( 19 )
+
+[node name="HurtBox" parent="." instance=ExtResource( 4 )]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource( 20 )
