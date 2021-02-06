@@ -1,0 +1,172 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Character/Character.png" type="Texture" id=1]
+[ext_resource path="res://Character/Character.gd" type="Script" id=2]
+[ext_resource path="res://Gun/Gun.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle_left"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "idle_right"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "walking_left"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "walking_right"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "idle_left"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "idle_left"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "idle_right"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "idle_right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=9]
+blend_point_0/node = SubResource( 5 )
+blend_point_0/pos = Vector2( -1, 1 )
+blend_point_1/node = SubResource( 6 )
+blend_point_1/pos = Vector2( -1, -1 )
+blend_point_2/node = SubResource( 7 )
+blend_point_2/pos = Vector2( 1, 1 )
+blend_point_3/node = SubResource( 8 )
+blend_point_3/pos = Vector2( 1, -1 )
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "walking_left"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "walking_right"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "walking_right"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "walking_left"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=14]
+blend_point_0/node = SubResource( 10 )
+blend_point_0/pos = Vector2( -1, -1 )
+blend_point_1/node = SubResource( 11 )
+blend_point_1/pos = Vector2( 1, 1 )
+blend_point_2/node = SubResource( 12 )
+blend_point_2/pos = Vector2( 1, -1 )
+blend_point_3/node = SubResource( 13 )
+blend_point_3/pos = Vector2( -1, 1 )
+min_space = Vector2( -1, -1.01 )
+max_space = Vector2( 1.01, 1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachine" id=17]
+states/Idle/node = SubResource( 9 )
+states/Idle/position = Vector2( 438, 64 )
+states/Walking/node = SubResource( 14 )
+states/Walking/position = Vector2( 706, 95 )
+transitions = [ "Idle", "Walking", SubResource( 15 ), "Walking", "Idle", SubResource( 16 ) ]
+start_node = "Idle"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+
+[sub_resource type="CircleShape2D" id=19]
+radius = 2.67656
+
+[node name="Character" type="KinematicBody2D"]
+script = ExtResource( 2 )
+speed = 15
+
+[node name="Sprite" type="Sprite" parent="."]
+z_index = 1
+texture = ExtResource( 1 )
+hframes = 16
+frame = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/idle_left = SubResource( 1 )
+anims/idle_right = SubResource( 2 )
+anims/walking_left = SubResource( 3 )
+anims/walking_right = SubResource( 4 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 17 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 18 )
+parameters/Idle/blend_position = Vector2( -0.995863, 0.94723 )
+parameters/Walking/blend_position = Vector2( 0.0528076, 0.0592465 )
+
+[node name="Gun" parent="." instance=ExtResource( 3 )]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.0772781, 0.347759 )
+z_index = 2
+shape = SubResource( 19 )

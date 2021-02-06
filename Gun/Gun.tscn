@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Gun/Gun.gd" type="Script" id=1]
+[ext_resource path="res://Gun/Gun.png" type="Texture" id=2]
+[ext_resource path="res://Bullet/Bullet.tscn" type="PackedScene" id=3]
+
+[node name="Gun" type="Node2D"]
+rotation = -1.5708
+z_index = 1
+script = ExtResource( 1 )
+Bullet = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="ShootPoint" type="Position2D" parent="."]
+position = Vector2( -7.11695, 0 )
+__meta__ = {
+"_gizmo_extents_": 5.0
+}
