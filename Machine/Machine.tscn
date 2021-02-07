@@ -39,17 +39,17 @@ collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0.5, -10.5 )
 z_index = 1
 frames = SubResource( 3 )
 frame = 1
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
+position = Vector2( 0, -10.5 )
 z_index = 1
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.5, 10.5 )
 z_index = 1
 shape = SubResource( 4 )
 
@@ -58,7 +58,6 @@ collision_layer = 512
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionBox"]
-position = Vector2( -0.5, 10 )
 shape = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="."]
@@ -70,7 +69,6 @@ collision_layer = 8
 collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2( -0.453438, 10.5045 )
 rotation = 1.5708
 shape = SubResource( 6 )
 [connection signal="shard_added" from="." to="." method="_on_Machine_shard_added"]

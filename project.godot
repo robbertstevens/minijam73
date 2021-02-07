@@ -151,4 +151,5 @@ ui_d={
 
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+environment/default_clear_color=Color( 1, 0.576471, 0.494118, 1 )
 environment/default_environment="res://default_env.tres"

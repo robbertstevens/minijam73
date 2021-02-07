@@ -52,8 +52,8 @@ func _idle_state() -> void:
 func _attack_state() -> void:
 	animState.travel("Idle")
 	if $Timer.is_stopped():
-		var b = Global.add_child_to_world(BULLET_SCENE, global_position)
-		b.direction = (target.global_position - global_position).normalized()
+		var b = Global.add_child_to_world(BULLET_SCENE, $Position2D.global_position)
+		b.direction = b.position.direction_to(target.global_position)
 		$Timer.start()
 	
 	_change_state(EnemyState.IDLE)
