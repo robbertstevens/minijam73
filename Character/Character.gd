@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export (int) var speed = 5
+export (int) var max_shards = 3
 
 onready var animTree = $AnimationTree
 onready var animState = $AnimationTree.get("parameters/playback")
@@ -15,7 +16,7 @@ enum PlayerState {
 
 var current_state = PlayerState.IDLE
 var motion = Vector2()
-
+var shards = 0
 
 func _ready() -> void:
 	Global.player = self
@@ -54,3 +55,15 @@ func _get_input() -> Vector2:
 
 func _change_state(state):
 	current_state = state
+
+
+func _on_PickupBox_body_entered(body: Node) -> void:
+	if shards >= max_shards:
+		return
+		
+	body.queue_free()
+	shards += 1
+
+
+func _on_InteractionBox_area_entered(area: Area2D) -> void:
+	print(area.get_parent().name)

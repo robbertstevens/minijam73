@@ -18,5 +18,11 @@ func _on_Timer_timeout() -> void:
 	queue_free() # Replace with function body.
 
 func _on_HitBox_body_entered(body: Node) -> void:
+	_bullet_hit(body)
+
+func _on_HitBox_area_entered(area: Area2D) -> void:
+	_bullet_hit(area)
+
+func _bullet_hit(body: Node):
 	var b = Global.add_child_to_world(hit_effect, global_position)
 	queue_free()

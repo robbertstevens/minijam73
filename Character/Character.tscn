@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Character/Character.png" type="Texture" id=1]
 [ext_resource path="res://Character/Character.gd" type="Script" id=2]
@@ -141,10 +141,17 @@ start_node = "Idle"
 [sub_resource type="CircleShape2D" id=19]
 radius = 2.67656
 
-[sub_resource type="CircleShape2D" id=20]
-radius = 3.28368
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 3, 3 )
+
+[sub_resource type="CircleShape2D" id=21]
+radius = 6.11999
+
+[sub_resource type="CircleShape2D" id=22]
+radius = 6.15463
 
 [node name="Character" type="KinematicBody2D"]
+z_index = 1
 collision_mask = 4
 script = ExtResource( 2 )
 speed = 15
@@ -153,7 +160,7 @@ speed = 15
 z_index = 1
 texture = ExtResource( 1 )
 hframes = 16
-frame = 11
+frame = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle_left = SubResource( 1 )
@@ -181,3 +188,18 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource( 20 )
+
+[node name="PickupBox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupBox"]
+shape = SubResource( 21 )
+
+[node name="InteractionBox" type="Area2D" parent="."]
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionBox"]
+shape = SubResource( 22 )
+[connection signal="body_entered" from="PickupBox" to="." method="_on_PickupBox_body_entered"]
+[connection signal="area_entered" from="InteractionBox" to="." method="_on_InteractionBox_area_entered"]

@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 				$Sprite.flip_v = true
 			"ui_down":
 				rotation_degrees = -90
-				$Sprite.flip_v = true
+				$Sprite.flip_v = true  
 		
 		var b = Global.add_child_to_world(Bullet, $ShootPoint.global_position)
 		b.direction = shoot_directions[shoot_dir]

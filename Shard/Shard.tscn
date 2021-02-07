@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Shard/Shard.png" type="Texture" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1.9834
+
+[node name="Shard" type="StaticBody2D"]
+collision_layer = 256
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
