@@ -1,13 +1,10 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Enemy/Enemy.png" type="Texture" id=1]
 [ext_resource path="res://Shared/HurtBox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Enemy/Enemy.gd" type="Script" id=3]
-[ext_resource path="res://Assets/HealthBarForeground.png" type="Texture" id=4]
-[ext_resource path="res://Assets/HealthBarBackground.png" type="Texture" id=5]
-[ext_resource path="res://Enemy/HealthBar.gd" type="Script" id=6]
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=25]
 resource_name = "hurt"
 length = 0.6
 step = 0.2
@@ -38,7 +35,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=26]
 resource_name = "idle_left"
 length = 0.4
 loop = true
@@ -56,7 +53,7 @@ tracks/0/keys = {
 "values": [ 2, 3 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=27]
 resource_name = "idle_right"
 length = 0.4
 loop = true
@@ -74,7 +71,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=28]
 resource_name = "walking_left"
 length = 0.6
 loop = true
@@ -92,7 +89,7 @@ tracks/0/keys = {
 "values": [ 8, 9, 10 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=29]
 resource_name = "walking_right"
 length = 0.6
 loop = true
@@ -178,21 +175,13 @@ states/Walking/position = Vector2( 484, 176 )
 transitions = [ "Idle", "Walking", SubResource( 13 ), "Walking", "Idle", SubResource( 14 ), "Walking", "Hurt", SubResource( 23 ), "Hurt", "Idle", SubResource( 24 ) ]
 start_node = "Idle"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=6]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=30]
 
-[sub_resource type="CircleShape2D" id=20]
+[sub_resource type="CircleShape2D" id=31]
 radius = 5.0
 
-[sub_resource type="CircleShape2D" id=19]
+[sub_resource type="CircleShape2D" id=32]
 radius = 5.0
-
-[sub_resource type="StyleBoxTexture" id=25]
-texture = ExtResource( 4 )
-region_rect = Rect2( 0, 0, 1, 4 )
-
-[sub_resource type="StyleBoxTexture" id=26]
-texture = ExtResource( 5 )
-region_rect = Rect2( 0, 0, 1, 4 )
 
 [node name="Enemy" type="KinematicBody2D"]
 z_index = 1
@@ -207,23 +196,23 @@ texture = ExtResource( 1 )
 hframes = 15
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/hurt = SubResource( 21 )
-anims/idle_left = SubResource( 1 )
-anims/idle_right = SubResource( 2 )
-anims/walking_left = SubResource( 3 )
-anims/walking_right = SubResource( 4 )
+anims/hurt = SubResource( 25 )
+anims/idle_left = SubResource( 26 )
+anims/idle_right = SubResource( 27 )
+anims/walking_left = SubResource( 28 )
+anims/walking_right = SubResource( 29 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 5 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 6 )
+parameters/playback = SubResource( 30 )
 parameters/Idle/blend_position = Vector2( 0.258532, 0.385124 )
 parameters/Walking/blend_position = Vector2( -0.0279214, 0.183471 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.0950241, 3.04081 )
-shape = SubResource( 20 )
+shape = SubResource( 31 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 2 )]
 collision_layer = 16
@@ -231,29 +220,15 @@ collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2( 0.0950241, 3.13584 )
-shape = SubResource( 19 )
+shape = SubResource( 32 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 collision_mask = 5
 
-[node name="HealthBar" type="ProgressBar" parent="."]
-margin_left = -4.0
-margin_top = -10.0
-margin_right = 35.0
-margin_bottom = 4.0
-rect_scale = Vector2( 0.2, 0.2 )
-custom_styles/fg = SubResource( 25 )
-custom_styles/bg = SubResource( 26 )
-percent_visible = false
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HealthBar"]
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true
 [connection signal="health_changed" from="." to="." method="_on_Enemy_health_changed"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
-[connection signal="value_changed" from="HealthBar" to="HealthBar" method="_on_HealthBar_value_changed"]
-[connection signal="visibility_changed" from="HealthBar" to="HealthBar" method="_on_HealthBar_visibility_changed"]
-[connection signal="timeout" from="HealthBar/Timer" to="HealthBar" method="_on_Timer_timeout"]

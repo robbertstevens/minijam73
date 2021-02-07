@@ -15,7 +15,7 @@ func _physics_process(delta) -> void:
 	var _collider = move_and_collide(motion * delta)
 
 func _on_Timer_timeout() -> void:
-	queue_free() # Replace with function body.
+	queue_free()
 
 func _on_HitBox_body_entered(body: Node) -> void:
 	_bullet_hit(body)

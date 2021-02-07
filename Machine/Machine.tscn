@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Machine/Machine.png" type="Texture" id=1]
 [ext_resource path="res://Machine/Machine.gd" type="Script" id=2]
+[ext_resource path="res://Machine/Bubble.png" type="Texture" id=3]
+[ext_resource path="res://Shared/HurtBox.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -25,15 +27,26 @@ extents = Vector2( 11.5, 3.5 )
 [sub_resource type="CircleShape2D" id=5]
 radius = 15.8364
 
-[node name="Machine" type="StaticBody2D"]
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 3.57838
+height = 19.3788
+
+[node name="Machine" type="StaticBody2D" groups=[
+"machine",
+]]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 2 )
 
-[node name="Sprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 z_index = 1
 frames = SubResource( 3 )
-playing = true
+frame = 1
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+z_index = 1
+texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.5, 10.5 )
@@ -47,3 +60,24 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionBox"]
 position = Vector2( -0.5, 10 )
 shape = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="HurtBox" parent="." instance=ExtResource( 4 )]
+collision_layer = 8
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( -0.453438, 10.5045 )
+rotation = 1.5708
+shape = SubResource( 6 )
+[connection signal="shard_added" from="." to="." method="_on_Machine_shard_added"]
+[connection signal="shards_depleted" from="." to="." method="_on_Machine_shards_depleted"]
+[connection signal="area_entered" from="InteractionBox" to="." method="_on_InteractionBox_area_entered"]
+[connection signal="area_exited" from="InteractionBox" to="." method="_on_InteractionBox_area_exited"]
+[connection signal="body_entered" from="InteractionBox" to="." method="_on_InteractionBox_body_entered"]
+[connection signal="body_exited" from="InteractionBox" to="." method="_on_InteractionBox_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]

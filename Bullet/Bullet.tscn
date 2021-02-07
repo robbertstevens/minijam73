@@ -5,17 +5,17 @@
 [ext_resource path="res://Shared/HitBox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Bullet/HitEffect.tscn" type="PackedScene" id=4]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 16, 16 )
+region = Rect2( 32, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
-region = Rect2( 16, 0, 16, 16 )
+region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ) ],
 "loop": false,
 "name": "default",
 "speed": 50.0

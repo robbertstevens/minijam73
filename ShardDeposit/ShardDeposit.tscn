@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://ShardDeposit/ShardDeposit.png" type="Texture" id=1]
+[ext_resource path="res://ShardDeposit/ShardDeposit.gd" type="Script" id=2]
+[ext_resource path="res://Shared/HurtBox.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.13237
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 5 ) ],
+"loop": false,
+"name": "depleted",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 5, 5 )
+
+[node name="ShardDeposit" type="StaticBody2D"]
+z_index = 1
+collision_layer = 4
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 3 )
+z_index = 1
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 4 )
+
+[node name="HurtBox" parent="." instance=ExtResource( 3 )]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( 0, 3 )
+shape = SubResource( 2 )
+[connection signal="deposit_depleted" from="." to="." method="_on_ShardDeposit_deposit_depleted"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
